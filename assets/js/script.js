@@ -93,12 +93,19 @@ $(".list-group").on("click", "span", function () {
     .val(date);
   //replaces data span with the date input element
   $(this).replaceWith(dateInput);
+  //enables jQuery UI datepicker
+  dateInput.datepicker({
+    minDate: 1,
+    onClose: function () {
+      $(this).trigger("change");
+    },
+  });
   //automatically focus on new element
   dateInput.trigger("focus");
 });
 
 //save the new date when focus is no longer on the input
-$(".list-group").on("blur", "input", function () {
+$(".list-group").on("change", "input", function () {
   //get current text
   let date = $(this).val().trim();
   //get the parent ul's id attribute
@@ -136,6 +143,10 @@ $("#task-form-modal .btn-primary").click(function () {
 
     saveTasks();
   }
+});
+
+$("#modalDueDate").datepicker({
+  minDate: 1,
 });
 
 // remove all tasks
