@@ -82,6 +82,40 @@ $(".list-group").on("blur", "textarea", function () {
   $(this).replaceWith(taskP);
 });
 
+//due date is clicked
+$(".list-group").on("click", "span", function () {
+  //get current date text
+  let date = $(this).text().trim();
+  //creates a new input element
+  let dateInput = $("<input>")
+    .attr("type", "text")
+    .addClass("form-control")
+    .val(date);
+  //replaces data span with the date input element
+  $(this).replaceWith(dateInput);
+  //automatically focus on new element
+  dateInput.trigger("focus");
+});
+
+//save the new date when focus is no longer on the input
+$(".list-group").on("blur", "input", function () {
+  //get current text
+  let date = $(this).val().trim();
+  //get the parent ul's id attribute
+  let status = $(this).closest(".list-group").attr("id").replace("list-", "");
+  //get the task's position in the ul element
+  let index = $(this).closest(".list-group-item").index();
+  //update task in array and re-save to local storage
+  tasks[status][index].date = date;
+  saveTasks();
+  //recreate span element with Bootstrap classes
+  let taskSpan = $("<span>")
+    .addClass("badge badge-primary badge-pill")
+    .text(date);
+  //replace input with the span element
+  $(this).replaceWith(taskSpan);
+});
+
 // save button in modal was clicked
 $("#task-form-modal .btn-primary").click(function () {
   // get form values
