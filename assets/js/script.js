@@ -239,3 +239,10 @@ let auditTask = function (taskEl) {
 
 // load tasks for the first time
 loadTasks();
+
+//audits tasks every 30 minutes
+setInterval(function () {
+  $(".card .list-group-item").each(function (index, el) {
+    auditTask(el);
+  });
+}, 1000 * 60 * 30); //1000 miliseconds * 60 seconds to get 1 minute, then times 30 for 30 minutes
